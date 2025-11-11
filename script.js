@@ -30,22 +30,49 @@ function getHumanChoice(){
             console.log("Quit fatfingering the keyboard and type.");
         }
     }
-    console.log(humanChoice);
+
+    humanChoice = humanChoice.toLowerCase();
+
     return humanChoice;
 }
 
 function playRound(){
-    const humanSelection = getHumanChoice();
-    const computerSelection = getComputerChoice();
+    let humanSelection = "";
+    let computerSelection = "";
+    let winCondition = 0;
+    var validRoundWinner = false;
 
+    while(!validRoundWinner){
+        humanSelection = getHumanChoice();
+        computerSelection = getComputerChoice();
+
+        console.log("Player threw out " + humanSelection);
+        console.log("Computer responds with " + computerSelection);
+
+        if((humanSelection === "rock" && computerSelection === "paper") || (humanSelection === "paper" && computerSelection === "scissors") || (humanSelection === "scissors" && computerSelection === "rock")){
+            console.log("The computer wins this round!");
+            score = 1;
+            validRoundWinner = true;
+        } else if((humanSelection === "paper" && computerSelection === "rock") || (humanSelection === "scissors" && computerSelection === "paper") || (humanSelection === "rock" && computerSelection === "scissors")){
+            console.log("The human wins this round!");
+            score = 2;
+            validRoundWinner = true;
+        } else {
+            console.log("It appears it was a draw. One more time!")
+        }
+    }
+    return winCondition;
 }
 
-function playGame(){
+/**function playGame(){
     for(let i = 0; i < 5; i++){
+        console.log("Round " + i)
         playRound();
     }
 }
 
 
 
-playGame();
+playGame();**/
+
+playRound();
