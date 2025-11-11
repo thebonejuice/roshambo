@@ -51,11 +51,11 @@ function playRound(){
 
         if((humanSelection === "rock" && computerSelection === "paper") || (humanSelection === "paper" && computerSelection === "scissors") || (humanSelection === "scissors" && computerSelection === "rock")){
             console.log("The computer wins this round!");
-            score = 1;
+            winCondition = 1;
             validRoundWinner = true;
         } else if((humanSelection === "paper" && computerSelection === "rock") || (humanSelection === "scissors" && computerSelection === "paper") || (humanSelection === "rock" && computerSelection === "scissors")){
-            console.log("The human wins this round!");
-            score = 2;
+            console.log("The player wins this round!");
+            winCondition = 0;
             validRoundWinner = true;
         } else {
             console.log("It appears it was a draw. One more time!")
@@ -64,15 +64,32 @@ function playRound(){
     return winCondition;
 }
 
-/**function playGame(){
-    for(let i = 0; i < 5; i++){
+function playGame(){
+    let winCondition = 0;
+    let computerScore = 0;
+    let humanScore = 0;
+
+    for(let i = 1; i < 6; i++){
         console.log("Round " + i)
-        playRound();
+        winCondition = playRound();
+
+        if(winCondition === 1){
+            computerScore++;
+        }else{
+            humanScore++;
+        }
+
+        console.log("Current score: Player - "+ humanScore +" VS Computer - "+ computerScore);
+        console.log("***************************************");
+
+        if(computerScore === 3){
+            console.log("The computer wins this matchup. Skill issue lol.");
+            break;
+        }else if(humanScore === 3){
+            console.log("You won! Lucky you! You should go gambling!");
+            break;
+        }
     }
 }
 
-
-
-playGame();**/
-
-playRound();
+playGame();
