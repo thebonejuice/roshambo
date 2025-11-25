@@ -1,4 +1,13 @@
-/**function getComputerChoice(){
+let computerScore = 0;
+let humanScore = 0;
+
+const currentRound = document.createElement("h2");
+const currentScore = document.querySelector("h2");
+const winner = document.createElement("h1");
+const buttonHolder = document.querySelector("div");
+document.body.appendChild(winner);
+
+function getComputerChoice(){
     let computerNumberChoice = Math.floor(Math.random() * 3);
     let computerChoice = "";
 
@@ -14,64 +23,46 @@
 }
 
 function getHumanChoice(){
-    var validAnswer = false;
-    let humanChoice = "";
+    return new Promise(resolve => {
 
-    while(!validAnswer){
-        humanChoice = prompt("Rock, paper, or scissors?");
+        buttonHolder.innerHTML = '';
 
-        if(humanChoice === null){
-            console.log("Give an answer.");
-        }else if(humanChoice === ""){
-            console.log("Did you wanna type something or?");
-        } else if(humanChoice.toLowerCase() === "rock" || humanChoice.toLowerCase() === "paper" || humanChoice.toLowerCase() === "scissors"){
-            validAnswer = true;
-        } else {
-            console.log("Quit fatfingering the keyboard and type.");
-        }
-    }
+        const rockBtn = document.createElement("button");
+        const paperBtn = document.createElement("button");
+        const scissorsBtn = document.createElement("button");
 
-    humanChoice = humanChoice.toLowerCase();
+        rockBtn.textContent = "Rock!";
+        paperBtn.textContent = "Paper!";
+        scissorsBtn.textContent = "Scissors!";
 
-    return humanChoice;
+        buttonHolder.appendChild(rockBtn);
+        buttonHolder.appendChild(paperBtn);
+        buttonHolder.appendChild(scissorsBtn);
+
+        rockBtn.addEventListener("click", (event) => {
+            buttonHolder.innerHTML = '';
+            resolve("rock");
+        });
+
+        paperBtn.addEventListener("click", (event) => {
+            buttonHolder.innerHTML = '';
+            resolve("paper");
+        });
+
+        scissorsBtn.addEventListener("click", (event) => {
+            buttonHolder.innerHTML = '';
+            resolve("scissors");
+        });
+    });
 }
+// functioning code up here I think. below is what need to be worked on
 
-function playRound(){
-    let humanSelection = "";
-    let computerSelection = "";
+async function playGame(){
     let winCondition = 0;
-    var validRoundWinner = false;
-
-    while(!validRoundWinner){
-        humanSelection = getHumanChoice();
-        computerSelection = getComputerChoice();
-
-        console.log("Player threw out " + humanSelection);
-        console.log("Computer responds with " + computerSelection);
-
-        if((humanSelection === "rock" && computerSelection === "paper") || (humanSelection === "paper" && computerSelection === "scissors") || (humanSelection === "scissors" && computerSelection === "rock")){
-            console.log("The computer wins this round!");
-            winCondition = 1;
-            validRoundWinner = true;
-        } else if((humanSelection === "paper" && computerSelection === "rock") || (humanSelection === "scissors" && computerSelection === "paper") || (humanSelection === "rock" && computerSelection === "scissors")){
-            console.log("The player wins this round!");
-            winCondition = 0;
-            validRoundWinner = true;
-        } else {
-            console.log("It appears it was a draw. One more time!")
-        }
-    }
-    return winCondition;
-}
-
-function playGame(){
-    let winCondition = 0;
-    let computerScore = 0;
-    let humanScore = 0;
 
     for(let i = 1; i < 6; i++){
-        console.log("Round " + i)
-        winCondition = playRound();
+        currentRound.textContent = "Round " + i;
+        winCondition = await playRound();
 
         if(winCondition === 1){
             computerScore++;
@@ -79,34 +70,63 @@ function playGame(){
             humanScore++;
         }
 
-        console.log("Current score: Player - "+ humanScore +" VS Computer - "+ computerScore);
-        console.log("***************************************");
+        if (currentScore) {
+            currentScore.textContent = "Player - " + humanScore + " VS Computer - " + computerScore;
+        }
 
         if(computerScore === 3){
-            console.log("The computer wins this matchup. Skill issue lol.");
+            if (winner) {
+                winner.textContent = "The computer wins this matchup. Skill issue lol.";
+                buttonHolder.innerHTML = '';
+                break;
+            }
             break;
         }else if(humanScore === 3){
-            console.log("You won! Lucky you! You should go gambling!");
-            break;
+            if (winner) {
+                winner.textContent = "You won! Lucky you! You should go gambling!";
+                buttonHolder.innerHTML = '';
+                break;
+            }
         }
     }
 }
 
+async function playRound(){
+    let humanSelection = "";
+    let computerSelection = "";
+    let winCondition = -1;
+    var validRoundWinner = false;
+
+    const playerAction = document.createElement("h3");
+    const computerAction = document.createElement("h3");
+    const roundDeclaration = document.createElement("h3");
+
+    const body = document.querySelector("body");
+    body.appendChild(playerAction);
+    body.appendChild(computerAction);
+    body.appendChild(roundDeclaration);
+
+
+    while(!validRoundWinner){
+        humanSelection = await getHumanChoice();
+        computerSelection = getComputerChoice();
+
+        playerAction.textContent = "Player tries " + humanSelection;
+        computerAction.textContent = "Computer responds with " + computerSelection;
+
+        if((humanSelection === "rock" && computerSelection === "paper") || (humanSelection === "paper" && computerSelection === "scissors") || (humanSelection === "scissors" && computerSelection === "rock")){
+            roundDeclaration.textContent = "The computer wins this round!";
+            winCondition = 1;
+            validRoundWinner = true;
+        } else if((humanSelection === "paper" && computerSelection === "rock") || (humanSelection === "scissors" && computerSelection === "paper") || (humanSelection === "rock" && computerSelection === "scissors")){
+            roundDeclaration.textContent = "The player wins this round!";
+            winCondition = 0;
+            validRoundWinner = true;
+        } else {
+            roundDeclaration.textContent = "It appears it was a draw. One more time!";
+        }
+    }
+    return winCondition;
+}
+
 playGame();
-
-**/
-const buttonHolder = document.querySelector("div");
-
-const rockBtn = document.createElement("button");
-const paperBtn = document.createElement("button");
-const scissorsBtn = document.createElement("button");
-
-rockBtn.textContent = "Rock!";
-paperBtn.textContent = "Paper!";
-scissorsBtn.textContent = "Scissors!";
-
-buttonHolder.appendChild(rockBtn);
-buttonHolder.appendChild(paperBtn);
-buttonHolder.appendChild(scissorsBtn);
-
-
