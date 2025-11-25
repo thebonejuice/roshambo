@@ -15,3 +15,7 @@ if(humanInput < ComputerInput){
 }
 
 we have to find a random number to multiply to since 100 doesn't divide equally in 3's. Don't want one option getting a better probably than another, even if it's miniscule. Refer to MDN's "What went wrong?" for how to use the Math.Random in JavaScript.
+
+-----------------------------------------------------------
+
+From here (on the roshambo-branch) we're creating a user interface of Roshambo that should be mostly foolproof. The only way you wouldn't be able to play is if you couldn't click the buttons. If you can't click the buttons, I have no idea how you even got here in the first place.

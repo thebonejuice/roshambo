@@ -1,4 +1,4 @@
-function getComputerChoice(){
+/**function getComputerChoice(){
     let computerNumberChoice = Math.floor(Math.random() * 3);
     let computerChoice = "";
 
@@ -93,3 +93,20 @@ function playGame(){
 }
 
 playGame();
+
+**/
+const buttonHolder = document.querySelector("div");
+
+const rockBtn = document.createElement("button");
+const paperBtn = document.createElement("button");
+const scissorsBtn = document.createElement("button");
+
+rockBtn.textContent = "Rock!";
+paperBtn.textContent = "Paper!";
+scissorsBtn.textContent = "Scissors!";
+
+buttonHolder.appendChild(rockBtn);
+buttonHolder.appendChild(paperBtn);
+buttonHolder.appendChild(scissorsBtn);
+
+
